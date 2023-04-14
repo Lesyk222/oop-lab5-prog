@@ -2,10 +2,26 @@
 #include <iostream>
 
 using namespace std;
+
 CMultiSet::CMultiSet(int capacity) 
 	: values(nullptr) {
 	this->size = capacity;
 	values = new int[size];
+}
+
+CMultiSet::CMultiSet(const CMultiSet& other) {
+	size = other.size;
+	values = new int[size];	
+	for (int i = 0; i < size; i++) {
+		values[i] = other.values[i];
+	}
+}
+
+CMultiSet::CMultiSet(CMultiSet&& other) {
+	size = other.size;
+	values = other.values;
+	other.size = 0;
+	other.values = nullptr;
 }
 
 CMultiSet::~CMultiSet() {
@@ -58,6 +74,16 @@ void CMultiSet::addElement(int temp) {
 	delete[] values;
 	values = newValues;
 	values[size-1] = temp;
+
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size - i - 1; j++) {
+			if (values[j] > values[j + 1]) {
+				int temp = values[j];
+				values[j] = values[j + 1];
+				values[j + 1] = temp;
+			}
+		}
+	}
 }
 
 void CMultiSet::deleteElement(int temp) {
@@ -83,6 +109,16 @@ void CMultiSet::readArray() {
 		cout << "Enter " << i + 1 << " value: ";
 		cin >> value;
 		addElement(value);
+	}
+
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size - i - 1; j++) {
+			if (values[j] > values[j + 1]) {
+				int temp = values[j];
+				values[j] = values[j + 1];
+				values[j + 1] = temp;
+			}
+		}
 	}
 }
 
@@ -133,6 +169,23 @@ CMultiSet CMultiSet::operator/(const CMultiSet& other) const {
 		}
 	}
 	return multiSet;
+}
+
+CMultiSet& CMultiSet::operator=(const CMultiSet& other) {
+	size = other.size;
+	values = new int[size];
+	for (int i = 0; i < size; i++) {
+		values[i] = other.values[i];
+	}
+	return *this;
+}
+
+CMultiSet& CMultiSet::operator=(CMultiSet&& other) {
+	size = other.size;
+	values = other.values;
+	other.size = 0;
+	other.values = nullptr;
+	return *this;
 }
 
 istream& operator>> (istream& input, CMultiSet& other) {

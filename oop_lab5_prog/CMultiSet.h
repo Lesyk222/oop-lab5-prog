@@ -10,9 +10,10 @@ private:
 	int size;
 public:
     CMultiSet(int capacity = 0);
+    CMultiSet(const CMultiSet& other);
+    CMultiSet(CMultiSet&& other);
     ~CMultiSet();
 
-    //void setElement(int num, int index);
     int getElement(int index) const;
 
     int countOfCertainElement(int value) const;
@@ -23,9 +24,11 @@ public:
     void deleteElement(int temp);
     void readArray();
 
-    CMultiSet operator+(const CMultiSet& value) const;
-    CMultiSet operator-(const CMultiSet& value) const;
-    CMultiSet operator/(const CMultiSet& value) const;
-    friend istream& operator>> (istream& input, CMultiSet& value);
-    friend ostream& operator<< (ostream& output, const CMultiSet& value);
+    CMultiSet operator+(const CMultiSet& other) const;
+    CMultiSet operator-(const CMultiSet& other) const;
+    CMultiSet operator/(const CMultiSet& other) const;
+    CMultiSet& operator=(const CMultiSet& other);
+    CMultiSet& operator=(CMultiSet&& other);
+    friend istream& operator>> (istream& input, CMultiSet& other);
+    friend ostream& operator<< (ostream& output, const CMultiSet& other);
 };
