@@ -1,16 +1,15 @@
 #include "CMultiSet.h"
+#include <iostream>
 
-CMultiSet::CMultiSet(int capacity) {
+using namespace std;
+CMultiSet::CMultiSet(int capacity) 
+	: values(nullptr) {
 	this->size = capacity;
 	values = new int[size];
 }
 
 CMultiSet::~CMultiSet() {
 	delete[] values;
-}
-
-void CMultiSet::setElement(int num, int index) {
-	values[index] = num;
 }
 
 int CMultiSet::getElement(int index) const {
@@ -75,39 +74,75 @@ void CMultiSet::deleteElement(int temp) {
 	values = newValues;
 }
 
+void CMultiSet::readArray() {
+	int count;
+	cout << "Enter count: ";
+	cin >> count;
+	for (int i = 0; i < count; i++) {
+		int value;
+		cout << "Enter " << i + 1 << " value: ";
+		cin >> value;
+		addElement(value);
+	}
+}
+
 CMultiSet CMultiSet::operator+(const CMultiSet& other) const {
-	CMultiSet unions(0);
+	CMultiSet multiSet(0);
 	for (int i = 0; i < size; i++) {
-		unions.addElement(values[i]);
+		multiSet.addElement(values[i]);
 	}
 	for (int i = 0; i < other.cardinality(); i++) {
-		unions.addElement(other.values[i]);
+		multiSet.addElement(other.values[i]);
 	}
-	return unions;
+	return multiSet;
 }
 
 CMultiSet CMultiSet::operator-(const CMultiSet& other) const {
-	CMultiSet unions(0);
-	return unions;
+	CMultiSet multiSet(0);
+	int currentElement;
+	for (int i = 0; i < size; i++) {
+		int currentElement = values[i];
+		bool isContains = false;
+		for (int j = 0; j < other.size; j++) {
+			if (currentElement == other.values[i]) {
+				isContains = true;
+				break;
+			}
+		}
+		if (isContains) {
+			multiSet.addElement(currentElement);
+		}
+	}
+	return multiSet;
 }
 
 CMultiSet CMultiSet::operator/(const CMultiSet& other) const {
-	return 0;
+	CMultiSet multiSet(0);
+	int currentElement;
+	for (int i = 0; i < size; i++) {
+		int currentElement = values[i];
+		bool isContains = false;
+		for (int j = 0; j < other.size; j++) {
+			if (currentElement == other.values[i]) {
+				isContains = true;
+				break;
+			}
+		}
+		if (!isContains) {
+			multiSet.addElement(currentElement);
+		}
+	}
+	return multiSet;
 }
 
-istream& operator>> (istream& input, CMultiSet value) {
-	int set = 0;
-	for (int i = 0; i < value.cardinality(); i++) {
-		input >> set;
-		value.setElement(set, i);
-	}
+istream& operator>> (istream& input, CMultiSet& other) {
+	other.readArray();
 	return input;
 }
 
-ostream& operator<< (ostream& output, CMultiSet value) {
-	output << endl;
-	for (int i = 0; i < value.cardinality(); i++) {
-		output << value.values[i] << " ";
+ostream& operator<< (ostream& output, const CMultiSet& other) {
+	for (int i = 0; i < other.size; i++) {
+		output << other.values[i] << " ";
 	}
 	output << endl;
 	return output;

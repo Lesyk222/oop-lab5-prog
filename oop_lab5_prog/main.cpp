@@ -1,65 +1,44 @@
 #include "CMultiSet.h"
+#include <iostream>
 
+using namespace std;
 int main() {
-	CMultiSet arr(5);
-	int set = 0;
-	cout << "Input: " << endl;
-	for (int i = 0; i < arr.cardinality(); i++) {
-		cin >> set;
-		arr.setElement(set, i);
-	}
+	CMultiSet arr;
+	cout << "Input first multiset " << endl;
+	cin >> arr;
 
 	cout << "Output first multiset: ";
 	cout << arr;
 
-	CMultiSet arr2(5);
-	cout << "Input: " << endl;
-	for (int i = 0; i < arr2.cardinality(); i++) {
-		cin >> set;
-		arr2.setElement(set, i);
-	}
-
-	cout << "Output: " << endl;
-	for (int i = 0; i < arr2.cardinality(); i++) {
-		cout << arr2.getElement(i);
-		cout << "  ";
-	}
-
-	cout << endl;
 	cout << "Max: " << arr.findMax() << endl;
 	cout << "Min: " << arr.findMin() << endl;
 	cout << "4: " << arr.countOfCertainElement(4) << endl;
 	cout << "Power: " << arr.cardinality() << endl;
 
-	//cout << "Add new element: " << endl;
-	//cin >> set;
-	//arr.addElement(set);
-	//cout << "Output after adding: " << endl;
-	//for (int i = 0; i < arr.cardinality(); i++) {
-	//	cout << arr.getElement(i);
-	//	cout << "  ";
-	//}
-	//cout << endl;
+	CMultiSet arr2;
+	cout << "Input second multiset " << endl;
+	cin >> arr2;
 
-	//cout << "Delete element: " << endl;
-	//cin >> set;
-	//arr.deleteElement(set);
-	//cout << "Output after deleting: " << endl;
-	//for (int i = 0; i < arr.cardinality(); i++) {
-	//	cout << arr.getElement(i);
-	//	cout << "  ";
-	//}
+	cout << "Output second multiset: ";
+	cout << arr2;
+
+	cout << "Output second multiset: ";
+	cout << arr2;
+
+	cout << "Max: " << arr2.findMax() << endl;
+	cout << "Min: " << arr2.findMin() << endl;
+	cout << "4: " << arr2.countOfCertainElement(4) << endl;
+	cout << "Power: " << arr2.cardinality() << endl;
 
 	CMultiSet unions = arr + arr2;
-	cout << "Output: " << endl;
-	for (int i = 0; i < unions.cardinality(); i++) {
-		cout << unions.getElement(i);
-		cout << "  ";
-	}
+	cout << "Output unions: " << endl;
+	cout << unions;
+	
 	CMultiSet intersection = arr - arr2;
-	cout << "Output: " << endl;
-	for (int i = 0; i < intersection.cardinality(); i++) {
-		cout << intersection.getElement(i);
-		cout << "  ";
-	}
+	cout << "Output intersection: " << endl;
+	cout << intersection;
+
+	CMultiSet substraction = arr / arr2;
+	cout << "Output substraction: " << endl;
+	cout << substraction;
 }
